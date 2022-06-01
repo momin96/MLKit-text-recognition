@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0Q6-lG-sCk">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -125,19 +124,18 @@
                                 <rect key="frame" x="37.5" y="84" width="300" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ued-Q5-haS">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ued-Q5-haS">
                                 <rect key="frame" x="38.5" y="434" width="298" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="42" id="v9e-Gi-Kc7"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="42" id="v9e-Gi-Kc7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1AB-0T-HPS">
-                                <rect key="frame" x="97" y="502" width="181" height="31"/>
+                                <rect key="frame" x="157" y="502" width="61" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="181" id="9gv-6f-JzB"/>
                                     <constraint firstAttribute="height" constant="31" id="gyP-FX-Rve"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
@@ -146,6 +144,13 @@
                                     <action selector="reset:" destination="YXl-5B-mBF" eventType="touchUpInside" id="d4S-Vs-o93"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="agU-xN-zFo">
+                                <rect key="frame" x="167.5" y="386" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="DDI-02-6qc"/>
+                                    <constraint firstAttribute="width" constant="40" id="RLi-wW-5Mg"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -153,7 +158,9 @@
                             <constraint firstItem="ued-Q5-haS" firstAttribute="top" secondItem="Vwd-Qp-BMC" secondAttribute="bottom" constant="150" id="495-qp-s5h"/>
                             <constraint firstItem="Vwd-Qp-BMC" firstAttribute="width" secondItem="bWY-Sx-TCF" secondAttribute="width" multiplier="0.8" id="F1n-HR-lbu"/>
                             <constraint firstItem="Vwd-Qp-BMC" firstAttribute="top" secondItem="bWY-Sx-TCF" secondAttribute="topMargin" constant="40" id="GtM-D5-MQE"/>
+                            <constraint firstItem="ued-Q5-haS" firstAttribute="top" secondItem="agU-xN-zFo" secondAttribute="bottom" constant="8" symbolic="YES" id="HPW-yX-82I"/>
                             <constraint firstItem="ued-Q5-haS" firstAttribute="width" secondItem="bWY-Sx-TCF" secondAttribute="width" multiplier="0.794667" id="RuH-BZ-cqC"/>
+                            <constraint firstItem="agU-xN-zFo" firstAttribute="centerX" secondItem="ued-Q5-haS" secondAttribute="centerX" id="W1j-UN-AGN"/>
                             <constraint firstItem="1AB-0T-HPS" firstAttribute="top" secondItem="ued-Q5-haS" secondAttribute="bottom" constant="26" id="dbV-v3-9qn"/>
                             <constraint firstItem="ued-Q5-haS" firstAttribute="centerX" secondItem="bWY-Sx-TCF" secondAttribute="centerX" id="fCE-H4-I1Z"/>
                             <constraint firstItem="1AB-0T-HPS" firstAttribute="centerX" secondItem="bWY-Sx-TCF" secondAttribute="centerX" id="kFT-FW-jsb"/>
@@ -170,6 +177,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="cameraView" destination="Vwd-Qp-BMC" id="yRq-e8-30h"/>
+                        <outlet property="imageView" destination="agU-xN-zFo" id="0Zb-5E-odY"/>
                         <outlet property="resultLabel" destination="ued-Q5-haS" id="PWH-JI-XTD"/>
                     </connections>
                 </viewController>

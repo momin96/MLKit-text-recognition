@@ -48,6 +48,7 @@ class CameraViewController: UIViewController {
     
     @IBOutlet private weak var cameraView: UIView!
     @IBOutlet private weak var resultLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
     // MARK: - UIViewController
     
     override func viewDidLoad() {
@@ -114,69 +115,86 @@ class CameraViewController: UIViewController {
                 //        )
                 
                 // Lines.
-                for line in block.lines {
-                    //          let points = strongSelf.convertedPoints(
-                    //            from: line.cornerPoints, width: width, height: height)
-                    //          UIUtilities.addShape(
-                    //            withPoints: points,
-                    //            to: strongSelf.annotationOverlayView,
-                    //            color: UIColor.orange
-                    //          )
+                
+                
+                if let firstLine = block.lines.first {
+                    let joinedElements = firstLine.elements.map { "\($0.text)" }.joined(separator: "")
+                    print("joinedElements \(joinedElements)")
                     
-                    // Elements.
-                    for element in line.elements {
-                        //            let normalizedRect = CGRect(
-                        //              x: element.frame.origin.x / width,
-                        //              y: element.frame.origin.y / height,
-                        //              width: element.frame.size.width / width,
-                        //              height: element.frame.size.height / height
-                        //            )
-                        //            let convertedRect = strongSelf.previewLayer.layerRectConverted(
-                        //              fromMetadataOutputRect: normalizedRect
-                        //            )
-                        //            UIUtilities.addRectangle(
-                        //              convertedRect,
-                        //              to: strongSelf.annotationOverlayView,
-                        //              color: UIColor.green
-                        //            )
-                        //            let label = UILabel(frame: convertedRect)
-                        //            label.text = element.text
-                        //            label.adjustsFontSizeToFitWidth = true
-                        //            strongSelf.rotate(label, orientation: image.orientation)
-                        //            strongSelf.annotationOverlayView.addSubview(label)
-                        
-                        print("text \(element.text)")
-//                        resultLabel.text = element.text
-                        evaluate(for: element.text)
-                    }
+                    evaluate(for: joinedElements)
                 }
+                
+//                print("block.count \(block.lines.count)")
+//                for line in block.lines {
+//                    //          let points = strongSelf.convertedPoints(
+//                    //            from: line.cornerPoints, width: width, height: height)
+//                    //          UIUtilities.addShape(
+//                    //            withPoints: points,
+//                    //            to: strongSelf.annotationOverlayView,
+//                    //            color: UIColor.orange
+//                    //          )
+//
+//                    // Elements.
+//                    print("line.elements \(line.elements.count) \(line.elements.map { "\($0.text)" })")
+//
+//                    for element in line.elements {
+//                        //            let normalizedRect = CGRect(
+//                        //              x: element.frame.origin.x / width,
+//                        //              y: element.frame.origin.y / height,
+//                        //              width: element.frame.size.width / width,
+//                        //              height: element.frame.size.height / height
+//                        //            )
+//                        //            let convertedRect = strongSelf.previewLayer.layerRectConverted(
+//                        //              fromMetadataOutputRect: normalizedRect
+//                        //            )
+//                        //            UIUtilities.addRectangle(
+//                        //              convertedRect,
+//                        //              to: strongSelf.annotationOverlayView,
+//                        //              color: UIColor.green
+//                        //            )
+//                        //            let label = UILabel(frame: convertedRect)
+//                        //            label.text = element.text
+//                        //            label.adjustsFontSizeToFitWidth = true
+//                        //            strongSelf.rotate(label, orientation: image.orientation)
+//                        //            strongSelf.annotationOverlayView.addSubview(label)
+//
+////                        print("text \(element.text)")
+////                        resultLabel.text = element.text
+//                        evaluate(for: element.text)
+//                    }
+//                }
             }
         }
     }
     
     func evaluate(for text: String) {
         
-        guard let ch = text.range(of: "=") else { return }
-        print("ch \(ch)   text = \(text)")
-        let lhsAndRhsList = text.split(separator: "=").map { String($0) }
-        let exp = Expression(text)
-
-        guard let lastValue = lhsAndRhsList.last,
-              let scannedAnswer = Double(lastValue) else { return }
-        
-        do {
-            let evaluatedAnswer = try exp.evaluate()
-
-            if scannedAnswer == evaluatedAnswer {
-                stopSession()
-                resultLabel.text = "You are correct : \(evaluatedAnswer)"
-            } else {
-                stopSession()
-                resultLabel.text = "You are wrong : \(evaluatedAnswer)"
-            }
+        if let _ = text.range(of: "=") {
+            let lhsAndRhsList = text.split(separator: "=").map { String($0) }
+            guard let firstValue = lhsAndRhsList.first,
+                  let lastValue = lhsAndRhsList.last,
+                  let scannedAnswer = Double(lastValue) else { return }
             
-        } catch {
-            print(error.localizedDescription)
+            let exp = Expression(firstValue)
+            do {
+                let evaluatedAnswer = try exp.evaluate()
+                if scannedAnswer == evaluatedAnswer {
+                    stopSession()
+                    resultLabel.text = "Your answer \(evaluatedAnswer) is correct"
+                } else {
+                    stopSession()
+                    resultLabel.text = "You answer \(evaluatedAnswer) is wrong"
+                    imageView.image = UIImage(systemName: "hand.thumbsdown.fill")
+                }
+                
+            } catch {
+                print(error.localizedDescription)
+                imageView.image = nil
+                resultLabel.text = "Unable to evaluate expression: \(error.localizedDescription)"
+            }
+        } else {
+            imageView.image = nil
+            resultLabel.text = "Error: Expression might not correct, Please try again"
         }
     }
     

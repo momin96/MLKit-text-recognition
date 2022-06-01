@@ -82,7 +82,7 @@ print("viewDidLoad")
   }
     
     func evaluateMathExpression() {
-        let text = "3 + 5"
+        let text = "20-4"
         let exp = Expression(text)
         do {
             let result = try exp.evaluate()
