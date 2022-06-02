@@ -178,27 +178,29 @@ class CameraViewController: UIViewController {
             let exp = Expression(firstValue)
             do {
                 let evaluatedAnswer = try exp.evaluate()
+                print("scannedAnswer \(scannedAnswer)  evaluatedAnswer \(evaluatedAnswer)")
                 if scannedAnswer == evaluatedAnswer {
-                    stopSession()
-                    resultLabel.text = "Your answer \(evaluatedAnswer) is correct"
+                    resultLabel.text = "Your answer \(scannedAnswer) is correct"
+                    imageView.image = UIImage(systemName: "hand.thumbsup.fill")
+//                    stopSession()
                 } else {
-                    stopSession()
-                    resultLabel.text = "You answer \(evaluatedAnswer) is wrong"
+                    resultLabel.text = "Your answer \(scannedAnswer) is wrong"
                     imageView.image = UIImage(systemName: "hand.thumbsdown.fill")
                 }
                 
             } catch {
                 print(error.localizedDescription)
-                imageView.image = nil
-                resultLabel.text = "Unable to evaluate expression: \(error.localizedDescription)"
+                imageView.image = UIImage(systemName: "multiply.circle")
+                resultLabel.text = "Cannot recognize the input, It is not expression."
             }
         } else {
-            imageView.image = nil
-            resultLabel.text = "Error: Expression might not correct, Please try again"
+            imageView.image = UIImage(systemName: "multiply.circle")
+            resultLabel.text = "Error: Please provide complete input expression."
         }
     }
     
     @IBAction func reset(_ sender: UIButton) {
+        imageView.image = nil
         resultLabel.text = ""
         startSession()
     }
