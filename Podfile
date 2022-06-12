@@ -3,7 +3,7 @@ use_frameworks!
 
 project 'TextRecognitionExample.xcodeproj'
 
-#pod 'GoogleMLKit/TextRecognition', '2.2.0'
+pod 'GoogleMLKit/TextRecognition', '2.2.0'
 pod 'Expression', '~> 0.13'
 
 target 'TextRecognitionExample' do
