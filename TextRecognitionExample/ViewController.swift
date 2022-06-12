@@ -17,6 +17,7 @@
 import MLImage
 import MLKit
 import UIKit
+import Expression
 
 /// Main view controller class.
 @objc(ViewController)
@@ -51,7 +52,9 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+print("viewDidLoad")
+      evaluateMathExpression()
+      
     imageView.image = UIImage(named: Constants.images[currentImage])
     imageView.addSubview(annotationOverlayView)
     NSLayoutConstraint.activate([
@@ -77,6 +80,17 @@ class ViewController: UIViewController, UINavigationControllerDelegate {
       photoCameraButton.isEnabled = false
     }
   }
+    
+    func evaluateMathExpression() {
+        let text = "20-4"
+        let exp = Expression(text)
+        do {
+            let result = try exp.evaluate()
+            print("result \(result)")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
